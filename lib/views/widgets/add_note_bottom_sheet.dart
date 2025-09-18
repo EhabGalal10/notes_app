@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notesapp/contants.dart';
 import 'package:notesapp/views/widgets/custom_button.dart';
 import 'package:notesapp/views/widgets/custom_text_field.dart';
 
