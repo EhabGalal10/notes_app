@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/contants.dart';
 
-class CutomTextField extends StatelessWidget {
-  const CutomTextField({super.key, required this.hint, this.maxLines = 1});
+class CutomTextFormField extends StatelessWidget {
+  const CutomTextFormField(
+      {super.key, required this.hint, this.maxLines = 1, this.onSaved});
   final String hint;
   final int maxLines;
 
+  final void Function(String?)? onSaved;
+
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+        onSaved: onSaved,
+        validator: (value) {
+          if (value?.isEmpty ?? true) {
+            return 'Field is required';
+          } else {
+            return null;
+          }
+        },
         cursorColor: kprimaryColor,
         maxLines: maxLines,
         decoration: InputDecoration(
