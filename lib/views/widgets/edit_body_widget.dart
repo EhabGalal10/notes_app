@@ -1,43 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notesapp/cubits/notes_cubit/notes_cubit.dart';
+import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/views/widgets/custom_app_bar.dart';
 import 'package:notesapp/views/widgets/custom_text_field.dart';
 
-class EditBodyWidget extends StatelessWidget {
-  const EditBodyWidget({super.key});
+class EditBodyWidget extends StatefulWidget {
+  const EditBodyWidget({super.key, required this.note});
+  final NoteModel note;
 
   @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24),
-      child: EditNoteForm(),
-    );
-  }
+  State<EditBodyWidget> createState() => _EditBodyWidgetState();
 }
 
-class EditNoteForm extends StatefulWidget {
-  const EditNoteForm({
-    super.key,
-  });
-
-  @override
-  State<EditNoteForm> createState() => _EditNoteFormState();
-}
-
-class _EditNoteFormState extends State<EditNoteForm> {
-  GlobalKey<FormState> formKey = GlobalKey();
-  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+class _EditBodyWidgetState extends State<EditBodyWidget> {
   String? title, subtitle;
+
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      autovalidateMode: autovalidateMode,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
           const SizedBox(
             height: 50,
           ),
-          const CustomAppBar(
+          CustomAppBar(
+            onPressed: () {
+              widget.note.title = title ?? widget.note.title;
+              widget.note.subtitle = subtitle ?? widget.note.subtitle;
+              widget.note.save();
+              BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+              Navigator.pop(context);
+            },
             title: 'Edit Note',
             icon: Icons.check,
           ),
@@ -45,20 +40,20 @@ class _EditNoteFormState extends State<EditNoteForm> {
             height: 50,
           ),
           CutomTextFormField(
-            hint: 'Title',
-            onSaved: (value) {
+            onChanged: (value) {
               title = value;
             },
+            hint: widget.note.title,
           ),
           const SizedBox(
             height: 16,
           ),
           CutomTextFormField(
-            hint: 'Content',
-            maxLines: 5,
-            onSaved: (value) {
+            onChanged: (value) {
               subtitle = value;
             },
+            hint: widget.note.subtitle,
+            maxLines: 5,
           ),
         ],
       ),
