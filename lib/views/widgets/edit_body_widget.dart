@@ -9,21 +9,21 @@ class EditBodyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.symmetric(horizontal: 24),
-      child: AddNoteForm(),
+      child: EditNoteForm(),
     );
   }
 }
 
-class AddNoteForm extends StatefulWidget {
-  const AddNoteForm({
+class EditNoteForm extends StatefulWidget {
+  const EditNoteForm({
     super.key,
   });
 
   @override
-  State<AddNoteForm> createState() => _AddNoteFormState();
+  State<EditNoteForm> createState() => _EditNoteFormState();
 }
 
-class _AddNoteFormState extends State<AddNoteForm> {
+class _EditNoteFormState extends State<EditNoteForm> {
   GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? title, subtitle;
